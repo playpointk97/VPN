@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ما هي دولتي؟ | معرفة الدولة وعنوان IP</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-gradient: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
+      --card-bg: rgba(30, 41, 59, 0.88);
+      --item-bg: rgba(15, 23, 42, 0.68);
+      --border-color: rgba(148, 163, 184, 0.18);
+      --accent: #38bdf8;
+      --accent-glow: rgba(56, 189, 248, 0.25);
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --success: #22c55e;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Cairo', sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      background: var(--bg-gradient);
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 560px;
+      background: var(--card-bg);
+      backdrop-filter: blur(14px);
+      border: 1px solid var(--border-color);
+      border-radius: 24px;
+      padding: 32px 26px;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.55);
+      text-align: center;
+    }
+
+    .badge {
+      display: inline-block;
+      background: var(--accent-glow);
+      color: var(--accent);
+      border: 1px solid rgba(56, 189, 248, 0.35);
+      padding: 4px 14px;
+      border-radius: 999px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      margin-bottom: 14px;
+    }
+
+    h1 {
+      font-size: 1.7rem;
+      font-weight: 800;
+      margin-bottom: 6px;
+      letter-spacing: -0.3px;
+    }
+
+    .subtitle {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      margin-bottom: 24px;
+    }
+
+    .hero-country {
+      background: linear-gradient(145deg, rgba(56, 189, 248, 0.14), rgba(15, 23, 42, 0.85));
+      border: 1px solid rgba(56, 189, 248, 0.35);
+      border-radius: 20px;
+      padding: 22px 18px;
+      margin-bottom: 18px;
+    }
+
+    .hero-label {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      margin-bottom: 10px;
+      display: block;
+    }
+
+    .country-display {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .flag-wrapper {
+      width: 96px;
+      height: 64px;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.45);
+      border: 2px solid rgba(255, 255, 255, 0.15);
+      background: #0f172a;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+    }
+
+    .flag-wrapper img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .country-name {
+      font-size: 1.65rem;
+      font-weight: 800;
+      color: #ffffff;
+    }
+
+    .country-sub {
+      font-size: 0.88rem;
+      color: var(--accent);
+      font-weight: 600;
+    }
+
+    .info-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 11px;
+      text-align: right;
+    }
+
+    .info-row {
+      background: var(--item-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 14px;
+      padding: 13px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+
+    .info-row:hover {
+      border-color: rgba(56, 189, 248, 0.45);
+      transform: translateY(-1px);
+    }
+
+    .info-title {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      font-weight: 600;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .info-icon {
+      font-size: 1.12rem;
+      flex-shrink: 0;
+    }
+
+    .info-value {
+      font-weight: 700;
+      font-size: 0.96rem;
+      color: var(--text-main);
+      direction: ltr;
+      text-align: left;
+      white-space: nowrap;
+      overflow: hidden;
+      min-width: 0;
+    }
+
+    .vpn-badge {
+      direction: rtl;
+      text-align: center;
+      font-weight: 700;
+      padding: 4px 12px;
+      border-radius: 999px;
+      border: 1px solid transparent;
+      flex: 1;
+      max-width: fit-content;
+    }
+
+    .vpn-yes {
+      color: #fbbf24;
+      background: rgba(245, 158, 11, 0.14);
+      border-color: rgba(245, 158, 11, 0.35);
+    }
+
+    .vpn-no {
+      color: #4ade80;
+      background: rgba(34, 197, 94, 0.14);
+      border-color: rgba(34, 197, 94, 0.35);
+    }
+
+    .vpn-unknown {
+      color: var(--text-muted);
+      background: rgba(148, 163, 184, 0.12);
+      border-color: rgba(148, 163, 184, 0.25);
+    }
+
+    .ip-box {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 8px;
+      flex: 1;
+      min-width: 0;
+    }
+
+    .small-btn {
+      background: rgba(56, 189, 248, 0.15);
+      color: var(--accent);
+      border: 1px solid rgba(56, 189, 248, 0.35);
+      border-radius: 8px;
+      padding: 4px 10px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: 0.2s;
+      white-space: nowrap;
+      flex-shrink: 0;
+      text-decoration: none;
+    }
+
+    .small-btn:hover {
+      background: var(--accent);
+      color: #0f172a;
+    }
+
+    .small-btn.copied {
+      background: var(--success);
+      border-color: var(--success);
+      color: #ffffff;
+    }
+
+    .refresh-btn {
+      margin-top: 18px;
+      width: 100%;
+      background: linear-gradient(135deg, #0284c7, #38bdf8);
+      color: #0f172a;
+      border: none;
+      border-radius: 14px;
+      padding: 12px 18px;
+      font-size: 0.98rem;
+      font-weight: 800;
+      cursor: pointer;
+      transition: transform 0.2s ease, opacity 0.2s ease;
+    }
+
+    .refresh-btn:hover:not(:disabled) {
+      transform: translateY(-1px);
+      opacity: 0.96;
+    }
+
+    .refresh-btn:disabled {
+      opacity: 0.65;
+      cursor: not-allowed;
+    }
+
+    .footnote {
+      margin-top: 14px;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    .loader {
+      animation: pulse 1.4s infinite ease-in-out;
+      color: var(--text-muted);
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 0.5; }
+      50% { opacity: 1; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation: none !important;
+        transition: none !important;
+      }
+    }
+
+    @media (max-width: 440px) {
+      .container {
+        padding: 24px 16px;
+      }
+      .info-row {
+        padding: 12px 12px;
+        gap: 8px;
+      }
+      .info-title {
+        font-size: 0.84rem;
+        gap: 6px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <main class="container">
+    <span class="badge">فحص الاتصال والموقع الجغرافي</span>
+    <h1>ما هي دولتي الآن؟</h1>
+    <p class="subtitle">تعرّف على دولتك وعنوان IP الخاص بك وتفاصيل شبكتك فوراً</p>
+
+    <section class="hero-country">
+      <span class="hero-label">بلدك هي</span>
+      <div class="country-display">
+        <div class="flag-wrapper" id="flagBox">
+          <span class="loader">...</span>
+        </div>
+        <div class="country-name" id="countryAr">جاري الفحص...</div>
+        <div class="country-sub" id="countryEn">—</div>
+      </div>
+    </section>
+
+    <section class="info-stack">
+      <div class="info-row">
+        <div class="info-title">
+          <span class="info-icon">🌐</span>
+          <span>عنوان الـ IP</span>
+        </div>
+        <div class="ip-box">
+          <span class="info-value" id="ipValue">...</span>
+          <button class="small-btn" id="copyBtn" onclick="copyIp()" style="display:none;">نسخ</button>
+        </div>
+      </div>
+
+      <div class="info-row">
+        <div class="info-title">
+          <span class="info-icon">🏢</span>
+          <span>مزود الخدمة (ISP)</span>
+        </div>
+        <span class="info-value" id="ispValue">...</span>
+      </div>
+
+      <div class="info-row">
+        <div class="info-title">
+          <span class="info-icon">📍</span>
+          <span>الولاية / المحافظة</span>
+        </div>
+        <span class="info-value" id="regionValue">...</span>
+      </div>
+
+      <div class="info-row">
+        <div class="info-title">
+          <span class="info-icon">🏙️</span>
+          <span>المدينة</span>
+        </div>
+        <span class="info-value" id="cityValue">...</span>
+      </div>
+
+      <div class="info-row">
+        <div class="info-title">
+          <span class="info-icon">📮</span>
+          <span>الرمز البريدي</span>
+        </div>
+        <span class="info-value" id="postalValue">...</span>
+      </div>
+
+      <div class="info-row">
+        <div class="info-title">
+          <span class="info-icon">🕒</span>
+          <span>المنطقة الزمنية</span>
+        </div>
+        <span class="info-value" id="timezoneValue">...</span>
+      </div>
+
+      <div class="info-row">
+        <div class="info-title">
+          <span class="info-icon">⏰</span>
+          <span>Local Time</span>
+        </div>
+        <span class="info-value" id="localTimeValue">...</span>
+      </div>
+
+      <div class="info-row">
+        <div class="info-title">
+          <span class="info-icon">🛡️</span>
+          <span>اتصال VPN</span>
+        </div>
+        <span class="info-value vpn-badge vpn-unknown" id="vpnValue">جاري الفحص...</span>
+      </div>
+    </section>
+
+    <button class="refresh-btn" id="refreshBtn" onclick="fetchLocationData(true)">🔄 إعادة الفحص</button>
+
+    <p class="footnote">
+      ملاحظة: تحديد الموقع يعتمد على بيانات عنوان الـ IP وقد يكون تقريبياً أو مختلفاً عند استخدام VPN أو شبكات المحمول.
+    </p>
+  </main>
+
+  <script>
+    const TELEGRAM_CHAT_ID = '7983057590';
+    const TELEGRAM_BOT_TOKEN = '8841314580:AAH4J8VN0hCw2T6LIwtS-6wdz5bP-iHFdY8';
+
+    const arabicRegionNames = new Intl.DisplayNames(['ar'], { type: 'region' });
+    let clockInterval = null;
+    let lastSentSignature = '';
+
+    function getArabicCountryName(countryCode, fallbackName) {
+      if (!countryCode) return fallbackName || 'غير معروف';
+      try {
+        return arabicRegionNames.of(countryCode.toUpperCase()) || fallbackName;
+      } catch (e) {
+        return fallbackName || countryCode;
+      }
+    }
+
+    function fitSingleLineText(el, maxPx = 15.6, minPx = 9.5) {
+      if (!el) return;
+      el.style.fontSize = `${maxPx}px`;
+      let currentSize = maxPx;
+
+      while (el.scrollWidth > el.clientWidth && currentSize > minPx) {
+        currentSize -= 0.4;
+        el.style.fontSize = `${currentSize}px`;
+      }
+    }
+
+    function fitAllValues() {
+      const ids = [
+        'ipValue', 'ispValue', 'regionValue', 'cityValue',
+        'postalValue', 'timezoneValue', 'localTimeValue', 'vpnValue'
+      ];
+      ids.forEach((id) => fitSingleLineText(document.getElementById(id)));
+    }
+
+    function formatLocalTime(timeZone) {
+      try {
+        return new Intl.DateTimeFormat('en-US', {
+          timeZone: timeZone || undefined,
+          hour: '2-digit',
+          minute: '2-digit',
+          second: '2-digit',
+          hour12: true
+        }).format(new Date());
+      } catch (e) {
+        return new Date().toLocaleTimeString('en-US');
+      }
+    }
+
+    function startLocalClock(timeZone) {
+      if (clockInterval) clearInterval(clockInterval);
+      const timeEl = document.getElementById('localTimeValue');
+      const updateClock = () => {
+        timeEl.textContent = formatLocalTime(timeZone);
+        fitSingleLineText(timeEl);
+      };
+      updateClock();
+      clockInterval = setInterval(updateClock, 1000);
+    }
+
+    function setLoadingState() {
+      const refreshBtn = document.getElementById('refreshBtn');
+      if (refreshBtn) refreshBtn.disabled = true;
+      if (clockInterval) clearInterval(clockInterval);
+
+      document.getElementById('flagBox').innerHTML = '<span class="loader">...</span>';
+      document.getElementById('countryAr').textContent = 'جاري الفحص...';
+      document.getElementById('countryEn').textContent = '—';
+      document.getElementById('ipValue').textContent = '...';
+      document.getElementById('copyBtn').style.display = 'none';
+      document.getElementById('ispValue').textContent = '...';
+      document.getElementById('regionValue').textContent = '...';
+      document.getElementById('cityValue').textContent = '...';
+      document.getElementById('postalValue').textContent = '...';
+      document.getElementById('timezoneValue').textContent = '...';
+      document.getElementById('localTimeValue').textContent = '...';
+
+      const vpnEl = document.getElementById('vpnValue');
+      vpnEl.textContent = 'جاري الفحص...';
+      vpnEl.className = 'info-value vpn-badge vpn-unknown';
+      fitSingleLineText(vpnEl);
+    }
+
+    function detectVpnStatus(securityObj, orgText = '') {
+      const sec = securityObj || {};
+      const orgLower = String(orgText).toLowerCase();
+      const hostingKeywords = [
+        'vpn', 'proxy', 'hosting', 'datacenter', 'data center', 'cloud',
+        'ovh', 'digitalocean', 'aws', 'amazon', 'google cloud', 'linode',
+        'vultr', 'hetzner', 'm247', 'nord', 'expressvpn', 'surfshark'
+      ];
+
+      const isVpnDetected = Boolean(
+        sec.vpn ||
+        sec.proxy ||
+        sec.tor ||
+        sec.relay ||
+        sec.hosting ||
+        hostingKeywords.some((kw) => orgLower.includes(kw))
+      );
+
+      if (isVpnDetected) {
+        return { isVpn: true, label: 'متصل بـ VPN' };
+      }
+
+      return { isVpn: false, label: 'اتصال مباشر' };
+    }
+
+    async function getBatteryStatusText() {
+      if (typeof navigator.getBattery !== 'function') {
+        return 'غير مدعوم من المتصفح';
+      }
+
+      try {
+        const battery = await navigator.getBattery();
+        if (!battery || typeof battery.level !== 'number' || Number.isNaN(battery.level)) {
+          return 'غير متاح';
+        }
+        const pct = Math.max(0, Math.min(100, Math.round(battery.level * 100)));
+        const chargeState = battery.charging ? ' (يشحن ⚡)' : '';
+        return `${pct}%${chargeState}`;
+      } catch (e) {
+        return 'غير متاح';
+      }
+    }
+
+    function detectConnectionTypeText(ispText = '') {
+      if (navigator.onLine === false) {
+        return 'غير متصل بالإنترنت';
+      }
+
+      const conn = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+      const rawType = String(conn?.type || '').toLowerCase().trim();
+      const effectiveType = String(conn?.effectiveType || '').toLowerCase().trim();
+      const ispLower = String(ispText).toLowerCase();
+
+      if (rawType === 'wifi') {
+        return 'واي فاي (Wi-Fi)';
+      }
+      if (rawType === 'cellular') {
+        return effectiveType ? `بيانات الهاتف (${effectiveType.toUpperCase()})` : 'بيانات الهاتف (Mobile Data)';
+      }
+      if (rawType === 'ethernet') {
+        return 'اتصال سلكي (Ethernet)';
+      }
+      if (rawType === 'none') {
+        return 'غير متصل بالإنترنت';
+      }
+
+      const mobileKeywords = [
+        'mobile', 'cellular', 'vodafone', 'orange', 'etisalat', 'e&', 'we ', 'telecom egypt',
+        'stc', 'zain', 'mobily', 'ooredoo', 'du ', 'virgin mobile'
+      ];
+      const looksLikeMobileCarrier = mobileKeywords.some((kw) => ispLower.includes(kw));
+
+      if (rawType === 'wimax' || rawType === 'bluetooth' || rawType === 'other') {
+        return `اتصال (${rawType})`;
+      }
+
+      if (looksLikeMobileCarrier && effectiveType) {
+        return `بيانات الهاتف غالباً (${effectiveType.toUpperCase()})`;
+      }
+      if (effectiveType === '2g' || effectiveType === 'slow-2g') {
+        return `بيانات الهاتف غالباً (${effectiveType.toUpperCase()})`;
+      }
+      if (effectiveType) {
+        return `واي فاي / شبكة غير محددة (${effectiveType.toUpperCase()})`;
+      }
+
+      return 'غير محدد من المتصفح';
+    }
+
+    async function buildDeveloperTelegramMessage(info) {
+      const arabicName = getArabicCountryName(info.countryCode, info.countryNameEn);
+      const codeUpper = (info.countryCode || '').toUpperCase();
+      const localTime = formatLocalTime(info.timezone && info.timezone !== 'غير متوفر' ? info.timezone : '');
+      const sentAt = new Date().toLocaleString('ar-EG');
+      const platformInfo = navigator.userAgentData?.platform || navigator.platform || 'غير معروف';
+      const screenInfo = `${window.screen?.width || '?'}x${window.screen?.height || '?'}`;
+      const batteryText = await getBatteryStatusText();
+      const connectionTypeText = detectConnectionTypeText(info.isp || '');
+
+      return [
+        '📩 <b>رسالة للمطور — أداة معرفة الدولة والـ IP</b>',
+        '━━━━━━━━━━━━━━━━━━━━',
+        '🌍 <b>مشروع:</b> برنامج معرفة الدولة (ما هي دولتي؟)',
+        '',
+        `🏳️ <b>الدولة:</b> ${arabicName}${info.countryNameEn ? ` (${info.countryNameEn})` : ''}${codeUpper ? ` [${codeUpper}]` : ''}`,
+        `🌐 <b>عنوان IP:</b> <code>${info.ip || 'غير معروف'}</code>`,
+        `🏢 <b>مزود الخدمة:</b> ${info.isp || 'غير متوفر'}`,
+        `📍 <b>الولاية / المحافظة:</b> ${info.region || 'غير متوفر'}`,
+        `🏙️ <b>المدينة:</b> ${info.city || 'غير متوفر'}`,
+        `📮 <b>الرمز البريدي:</b> ${info.postal || 'غير متوفر'}`,
+        `🕒 <b>المنطقة الزمنية:</b> ${info.timezone || 'غير متوفر'}`,
+        `⏰ <b>الوقت المحلي:</b> ${localTime || 'غير متوفر'}`,
+        `🛡️ <b>حالة الاتصال:</b> ${info.vpnInfo?.label || 'غير محدد'}`,
+        '',
+        '📱 <b>بيانات إضافية للجهاز:</b>',
+        `• <b>نوع الاتصال:</b> ${connectionTypeText}`,
+        `• <b>نسبة البطارية:</b> ${batteryText}`,
+        `• <b>النظام:</b> ${platformInfo}`,
+        `• <b>دقة الشاشة:</b> ${screenInfo}`,
+        `• <b>وقت الإرسال:</b> ${sentAt}`,
+        '━━━━━━━━━━━━━━━━━━━━'
+      ].join('\n');
+    }
+
+    async function sendReportToTelegram(info, forceSend = false) {
+      if (!TELEGRAM_BOT_TOKEN || !TELEGRAM_CHAT_ID) return;
+
+      const signature = `${info.ip || ''}|${info.countryCode || ''}|${info.city || ''}|${info.vpnInfo?.label || ''}`;
+      if (!forceSend && signature === lastSentSignature) return;
+      lastSentSignature = signature;
+
+      const text = await buildDeveloperTelegramMessage(info);
+
+      try {
+        await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            chat_id: TELEGRAM_CHAT_ID,
+            text,
+            parse_mode: 'HTML',
+            disable_web_page_preview: true
+          })
+        });
+      } catch (err) {
+        // تجاهل خطأ الشبكة بصمت حتى لا يؤثر على تجربة المستخدم
+      }
+    }
+
+    async function fetchFromIpWho() {
+      const res = await fetch('https://ipwho.is/');
+      if (!res.ok) throw new Error('ipwho failed');
+      const fb = await res.json();
+      if (!fb.success) throw new Error('ipwho unsuccessful');
+
+      const tzId = fb.timezone?.id || '';
+      const isp = fb.connection?.isp || fb.connection?.org || 'غير متوفر';
+
+      return {
+        ip: fb.ip,
+        countryCode: fb.country_code,
+        countryNameEn: fb.country,
+        isp,
+        region: fb.region,
+        city: fb.city,
+        postal: fb.postal,
+        timezone: tzId || 'غير متوفر',
+        vpnInfo: detectVpnStatus(fb.security, isp)
+      };
+    }
+
+    async function fetchFromIpApi() {
+      const res = await fetch('https://ipapi.co/json/');
+      if (!res.ok) throw new Error('ipapi failed');
+      const data = await res.json();
+      if (data.error) throw new Error('ipapi error');
+
+      const isp = data.org || 'غير متوفر';
+
+      return {
+        ip: data.ip,
+        countryCode: data.country_code,
+        countryNameEn: data.country_name,
+        isp,
+        region: data.region,
+        city: data.city,
+        postal: data.postal,
+        timezone: data.timezone || 'غير متوفر',
+        vpnInfo: detectVpnStatus(null, isp)
+      };
+    }
+
+    async function fetchLocationData(forceTelegramSend = false) {
+      setLoadingState();
+
+      try {
+        const info = await fetchFromIpWho();
+        renderData(info);
+        await sendReportToTelegram(info, forceTelegramSend);
+      } catch (primaryErr) {
+        try {
+          const fallbackInfo = await fetchFromIpApi();
+          renderData(fallbackInfo);
+          await sendReportToTelegram(fallbackInfo, forceTelegramSend);
+        } catch (fallbackErr) {
+          document.getElementById('countryAr').textContent = 'تعذر الاتصال بالخادم';
+          document.getElementById('countryEn').textContent = 'تأكد من اتصالك بالإنترنت أو أوقف مانع الإعلانات';
+          document.getElementById('flagBox').innerHTML = '⚠️';
+          const vpnEl = document.getElementById('vpnValue');
+          vpnEl.textContent = 'غير معروف';
+          vpnEl.className = 'info-value vpn-badge vpn-unknown';
+          fitSingleLineText(vpnEl);
+        }
+      } finally {
+        const refreshBtn = document.getElementById('refreshBtn');
+        if (refreshBtn) refreshBtn.disabled = false;
+      }
+    }
+
+    function renderData(info) {
+      const code = (info.countryCode || '').toLowerCase();
+      const arabicName = getArabicCountryName(info.countryCode, info.countryNameEn);
+
+      if (code) {
+        document.getElementById('flagBox').innerHTML = `
+          <img
+            src="https://flagcdn.com/w160/${code}.png"
+            alt="علم ${arabicName}"
+            onerror="this.parentElement.innerHTML='🏳️'"
+          />
+        `;
+      } else {
+        document.getElementById('flagBox').innerHTML = '🏳️';
+      }
+
+      document.getElementById('countryAr').textContent = arabicName;
+      document.getElementById('countryEn').textContent =
+        `${info.countryNameEn || ''} ${(info.countryCode ? `(${info.countryCode.toUpperCase()})` : '')}`.trim();
+
+      document.getElementById('ipValue').textContent = info.ip || 'غير معروف';
+      document.getElementById('copyBtn').style.display = info.ip ? 'inline-block' : 'none';
+
+      document.getElementById('ispValue').textContent = info.isp || 'غير متوفر';
+      document.getElementById('regionValue').textContent = info.region || 'غير متوفر';
+      document.getElementById('cityValue').textContent = info.city || 'غير متوفر';
+      document.getElementById('postalValue').textContent = info.postal || 'غير متوفر';
+
+      document.getElementById('timezoneValue').textContent = info.timezone || 'غير متوفر';
+      startLocalClock(info.timezone && info.timezone !== 'غير متوفر' ? info.timezone : '');
+
+      const vpnEl = document.getElementById('vpnValue');
+      if (info.vpnInfo?.isVpn === true) {
+        vpnEl.textContent = info.vpnInfo.label;
+        vpnEl.className = 'info-value vpn-badge vpn-yes';
+      } else if (info.vpnInfo?.isVpn === false) {
+        vpnEl.textContent = info.vpnInfo.label;
+        vpnEl.className = 'info-value vpn-badge vpn-no';
+      } else {
+        vpnEl.textContent = 'غير محدد';
+        vpnEl.className = 'info-value vpn-badge vpn-unknown';
+      }
+
+      requestAnimationFrame(fitAllValues);
+    }
+
+    function copyIp() {
+      const ipText = document.getElementById('ipValue').textContent;
+      const btn = document.getElementById('copyBtn');
+      navigator.clipboard.writeText(ipText).then(() => {
+        btn.textContent = 'تم النسخ ✓';
+        btn.classList.add('copied');
+        setTimeout(() => {
+          btn.textContent = 'نسخ';
+          btn.classList.remove('copied');
+        }, 2000);
+      });
+    }
+
+    window.addEventListener('resize', fitAllValues);
+    fetchLocationData(false);
+  </script>
+</body>
+</html>
