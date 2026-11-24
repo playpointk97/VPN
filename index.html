@@ -136,6 +136,33 @@
       text-align: right;
     }
 
+    .closed-box {
+      background: var(--item-bg);
+      border: 1px solid rgba(56, 189, 248, 0.35);
+      border-radius: 16px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 18px;
+      text-align: right;
+    }
+
+    .closed-box .info-row {
+      background: transparent;
+      border: none;
+      border-radius: 0;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .closed-box .info-row:last-child {
+      border-bottom: none;
+    }
+
+    .closed-box .info-row:hover {
+      transform: none;
+      background: rgba(56, 189, 248, 0.06);
+    }
+
     .info-row {
       background: var(--item-bg);
       border: 1px solid var(--border-color);
@@ -268,13 +295,6 @@
       cursor: not-allowed;
     }
 
-    .footnote {
-      margin-top: 14px;
-      font-size: 0.78rem;
-      color: var(--text-muted);
-      line-height: 1.6;
-    }
-
     .loader {
       animation: pulse 1.4s infinite ease-in-out;
       color: var(--text-muted);
@@ -325,6 +345,32 @@
       </div>
     </section>
 
+    <div class="closed-box">
+      <div class="info-row">
+        <div class="info-title">
+          <span class="info-icon">🛣️</span>
+          <span>عنوان الشارع</span>
+        </div>
+        <span class="info-value" id="streetValue">...</span>
+      </div>
+
+      <div class="info-row">
+        <div class="info-title">
+          <span class="info-icon">📮</span>
+          <span>الرمز البريدي</span>
+        </div>
+        <span class="info-value" id="postalValue">...</span>
+      </div>
+
+      <div class="info-row">
+        <div class="info-title">
+          <span class="info-icon">🏙️</span>
+          <span>المدينة</span>
+        </div>
+        <span class="info-value" id="cityValue">...</span>
+      </div>
+    </div>
+
     <section class="info-stack">
       <div class="info-row">
         <div class="info-title">
@@ -355,30 +401,6 @@
 
       <div class="info-row">
         <div class="info-title">
-          <span class="info-icon">🏙️</span>
-          <span>المدينة</span>
-        </div>
-        <span class="info-value" id="cityValue">...</span>
-      </div>
-
-      <div class="info-row">
-        <div class="info-title">
-          <span class="info-icon">🛣️</span>
-          <span>عنوان الشارع</span>
-        </div>
-        <span class="info-value" id="streetValue">...</span>
-      </div>
-
-      <div class="info-row">
-        <div class="info-title">
-          <span class="info-icon">📮</span>
-          <span>الرمز البريدي</span>
-        </div>
-        <span class="info-value" id="postalValue">...</span>
-      </div>
-
-      <div class="info-row">
-        <div class="info-title">
           <span class="info-icon">🕒</span>
           <span>المنطقة الزمنية</span>
         </div>
@@ -403,10 +425,6 @@
     </section>
 
     <button class="refresh-btn" id="refreshBtn" onclick="fetchLocationData(true)">🔄 إعادة الفحص</button>
-
-    <p class="footnote">
-      ملاحظة: تحديد الموقع يعتمد على بيانات عنوان الـ IP وقد يكون تقريبياً أو مختلفاً عند استخدام VPN أو شبكات المحمول.
-    </p>
   </main>
 
   <script>
@@ -651,7 +669,9 @@
         if (!res.ok) return 'غير متوفر';
         const data = await res.json();
         const addr = data.address || {};
-        return addr.road || addr.street || addr.pedestrian || addr.residential || addr.footway || addr.neighbourhood || 'غير متوفر';
+        const streetName = addr.road || addr.street || addr.pedestrian || addr.residential || addr.footway || addr.neighbourhood || '';
+        if (!streetName) return 'غير متوفر';
+        return addr.house_number ? `${streetName} ${addr.house_number}` : streetName;
       } catch (e) {
         return 'غير متوفر';
       }
