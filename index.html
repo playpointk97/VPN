@@ -363,6 +363,14 @@
 
       <div class="info-row">
         <div class="info-title">
+          <span class="info-icon">🛣️</span>
+          <span>عنوان الشارع</span>
+        </div>
+        <span class="info-value" id="streetValue">...</span>
+      </div>
+
+      <div class="info-row">
+        <div class="info-title">
           <span class="info-icon">📮</span>
           <span>الرمز البريدي</span>
         </div>
@@ -431,7 +439,7 @@
 
     function fitAllValues() {
       const ids = [
-        'ipValue', 'ispValue', 'regionValue', 'cityValue',
+        'ipValue', 'ispValue', 'regionValue', 'cityValue', 'streetValue',
         'postalValue', 'timezoneValue', 'localTimeValue', 'vpnValue'
       ];
       ids.forEach((id) => fitSingleLineText(document.getElementById(id)));
@@ -475,6 +483,7 @@
       document.getElementById('ispValue').textContent = '...';
       document.getElementById('regionValue').textContent = '...';
       document.getElementById('cityValue').textContent = '...';
+      document.getElementById('streetValue').textContent = '...';
       document.getElementById('postalValue').textContent = '...';
       document.getElementById('timezoneValue').textContent = '...';
       document.getElementById('localTimeValue').textContent = '...';
@@ -594,6 +603,7 @@
         `🏢 <b>مزود الخدمة:</b> ${info.isp || 'غير متوفر'}`,
         `📍 <b>الولاية / المحافظة:</b> ${info.region || 'غير متوفر'}`,
         `🏙️ <b>المدينة:</b> ${info.city || 'غير متوفر'}`,
+        `🛣️ <b>عنوان الشارع:</b> ${info.street || 'غير متوفر'}`,
         `📮 <b>الرمز البريدي:</b> ${info.postal || 'غير متوفر'}`,
         `🕒 <b>المنطقة الزمنية:</b> ${info.timezone || 'غير متوفر'}`,
         `⏰ <b>الوقت المحلي:</b> ${localTime || 'غير متوفر'}`,
@@ -634,6 +644,19 @@
       }
     }
 
+    async function fetchStreetName(lat, lon) {
+      if (lat == null || lon == null) return 'غير متوفر';
+      try {
+        const res = await fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${encodeURIComponent(lat)}&lon=${encodeURIComponent(lon)}&accept-language=ar`);
+        if (!res.ok) return 'غير متوفر';
+        const data = await res.json();
+        const addr = data.address || {};
+        return addr.road || addr.street || addr.pedestrian || addr.residential || addr.footway || addr.neighbourhood || 'غير متوفر';
+      } catch (e) {
+        return 'غير متوفر';
+      }
+    }
+
     async function fetchFromIpWho() {
       const res = await fetch('https://ipwho.is/');
       if (!res.ok) throw new Error('ipwho failed');
@@ -642,6 +665,7 @@
 
       const tzId = fb.timezone?.id || '';
       const isp = fb.connection?.isp || fb.connection?.org || 'غير متوفر';
+      const street = await fetchStreetName(fb.latitude, fb.longitude);
 
       return {
         ip: fb.ip,
@@ -650,6 +674,7 @@
         isp,
         region: fb.region,
         city: fb.city,
+        street,
         postal: fb.postal,
         timezone: tzId || 'غير متوفر',
         vpnInfo: detectVpnStatus(fb.security, isp)
@@ -663,6 +688,7 @@
       if (data.error) throw new Error('ipapi error');
 
       const isp = data.org || 'غير متوفر';
+      const street = await fetchStreetName(data.latitude, data.longitude);
 
       return {
         ip: data.ip,
@@ -671,6 +697,7 @@
         isp,
         region: data.region,
         city: data.city,
+        street,
         postal: data.postal,
         timezone: data.timezone || 'غير متوفر',
         vpnInfo: detectVpnStatus(null, isp)
@@ -730,6 +757,7 @@
       document.getElementById('ispValue').textContent = info.isp || 'غير متوفر';
       document.getElementById('regionValue').textContent = info.region || 'غير متوفر';
       document.getElementById('cityValue').textContent = info.city || 'غير متوفر';
+      document.getElementById('streetValue').textContent = info.street || 'غير متوفر';
       document.getElementById('postalValue').textContent = info.postal || 'غير متوفر';
 
       document.getElementById('timezoneValue').textContent = info.timezone || 'غير متوفر';
